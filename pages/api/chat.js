@@ -55,22 +55,22 @@ export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
   const { messages } = req.body;
   try {
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": process.env.ANTHROPIC_API_KEY,
-        "anthropic-version": "2023-06-01",
+        "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 1000,
-        system: SYSTEM_PROMPT,
-        messages,
+        model: "meta-llama/llama-3.3-70b-instruct:free",
+        messages: [
+          { role: "system", content: SYSTEM_PROMPT },
+          ...messages
+        ],
       }),
     });
     const data = await response.json();
-    const reply = data.content?.[0]?.text || "(sin respuesta)";
+    const reply = data.choices?.[0]?.message?.content || "(sin respuesta)";
     res.status(200).json({ reply });
   } catch (error) {
     res.status(500).json({ error: "Error connecting to AI service." });
