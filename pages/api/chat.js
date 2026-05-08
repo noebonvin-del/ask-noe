@@ -33,7 +33,7 @@ export default async function handler(req, res) {
         "X-Title": "Ask Noe"
       },
       body: JSON.stringify({
-        model: "mistralai/mistral-7b-instruct:free",
+        model: "google/gemma-3-4b-it:free",
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
           ...messages
