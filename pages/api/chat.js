@@ -33,7 +33,7 @@ export default async function handler(req, res) {
         "X-Title": "Ask Noe"
       },
       body: JSON.stringify({
-        model: "google/gemma-3-4b-it:free",
+        model: "meta-llama/llama-3.1-8b-instruct:free",
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
           ...messages
